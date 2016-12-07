@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Promise Test</title>
+    <script src="promise.js"></script>
+</head>
+
+<body>
+    <script>
+    
+    function PromiseForEach(arr, cb) {
+        let realResult = []
+        let result = new PromiseA()
+        result.resolve()
+        arr.forEach((a, index) => {
+            result = result.then(() => {
+                return cb(a).then((res) => {
+                    realResult.push(res)
+                })
+            })
+        })
+
+        return result.then(() => {
+            return realResult
+        })
+    }
+
+    const list = [1, 2, 3, 4]
+    PromiseForEach(list, (number) => {
+        return new PromiseA((resolve, reject) => {
+            setTimeout(() => {
+                console.log(number);
+                return resolve(number);
+            }, 1000);
+        })
+    }).then((data) => {
+        console.log("成功");
+        console.log(data);
+    }, (err) => {
+        console.log("失败");
+        console.log(err)
+    }); 
+    </script>
+</body>
+
+</html>
